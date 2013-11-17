@@ -5,3 +5,6 @@ django-menus
 django-digg-paginator
 bootstrap-admin
 django-concurrency
+django-celery
+redis
+python-dateutil
