@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'digest',
     'frontend',
     'concurrency',
+    'djcelery',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -178,7 +179,18 @@ LOGGING = {
     }
 }
 
-try:
-    from local_settings import *
-except ImportError:
-    print 'No local settings imported!'
+#try:
+#    from local_settings import *
+#except ImportError:
+#    print 'No local settings imported!'
+
+import djcelery
+from celery.schedules import crontab
+
+djcelery.setup_loader()
+
+BROKER_URL = "redis://localhost:6379/0";
+CELERY_RESULT_BACKEND = "database";
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler";
+CELERYBEAT_PIDFILE = '/tmp/celerybeat.pid'
+CELERYBEAT_SCHEDULE = {} # Will add tasks later
