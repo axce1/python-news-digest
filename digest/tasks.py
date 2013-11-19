@@ -1,3 +1,4 @@
+from djnago.db import transaction
 from celery.task import task
 from .models import Resource
 import feedparser
@@ -10,8 +11,11 @@ def update_rss():
             data = feedparser.parse(rec.link)
             print ('INFORMATION!!! INFORMATION!!!', data.feed['updated'])
             print  iso_to_date(data.feed['updated'])
-            for entry in data.entries:
-                print entry.title #link
+            #with transaction.commit_on_success():
+            for item in data.entries:
+                print item.title #link
+                #entry = Resource(title=item.title)
+                #entry.save()
         except Exception as e:
             print ('sync failed: %s' % e)
 
